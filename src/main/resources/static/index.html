@@ -2,11 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시판</title>
 </head>
+<style>
+    *{margin: 0;padding: 0}
+    header{
+        margin: 0 auto;
+        width: 800px;
+        height: 150px;
+    }
+    #creatPost{
+        margin-top: 100px;
+        float:right;
+    }
+    #tableWrap{
+        width: 800px;
+        height: 800px;
+        margin: 0 auto;
+    }
+    tr,th{
+        height: 40px;
+    }
+    .th_1{
+        width: 50px;
+    }
+    .th_2{
+        width: 100px;
+    }
+    .th_3{
+        width: 250px;
+    }
+    .th_4{
+        width: 100px;
+    }
+</style>
 <body>
-    <header></header>
-    <div></div>
+    <header>
+        <button id="creatPost">입력하기</button>
+    </header>
+    <div id="tableWrap">
+        <table border="1">
+            <tr>
+                <th class="th_1">No</th>
+                <th class="th_2">작성자</th>
+                <th class="th_3">제 목</th>
+                <th class="th_3">내 용</th>
+                <th class="th_4">작성날짜</th>
+                <th class="th_4">수정/삭제</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>김철수</th>
+                <th>살으리 살으리랏다.</th>
+                <th>하늘에 살으리랏다.</th>
+                <th>1982.6.12</th>
+                <th>
+                    <button>수정</button>
+                    <button>삭제</button>
+                </th>
+            </tr>
+        </table>
+    </div>
     <footer></footer>
 </body>
 </html>

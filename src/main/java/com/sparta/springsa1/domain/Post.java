@@ -21,17 +21,17 @@ public class Post extends TimeStamped{
     private String title;
 
     @Column(nullable = false)
-    private String contents;
+    private String comment;
 
     public Post(PostRequestDto requestDto){
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.comment = requestDto.getComment();
     }
 
     public void update(PostRequestDto requestDto){
         this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.comment = requestDto.getComment();
     }
 }

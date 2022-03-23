@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>게시판</title>
+
 </head>
-<style>
+    <style>
     *{margin: 0;padding: 0}
     header{
         margin: 0 auto;
@@ -36,9 +37,44 @@
         width: 100px;
     }
 </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/post.js"></script>
+    <script>
+        $(document).ready(function () {
+            listing()
+        })
+        function listing() {
+            $('#posts-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/posts/list",
+                contentType: 'application/json',
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < i.length; i++) {
+                        let post = response[i];
+                        let id = post[i]['id']
+                        let title = post[i]['title']
+                        let username = post[i]['username']
+                        let comment = post[i]['comment']
+                        let modifiedAt = post[i]['modifiedAt']
+                        let temp_html = `<th>${id}</th>
+                                            <th id="username">${username}</th>
+                                            <th id="title">${title}</th>
+                                            <th id="commnet">${comment}</th>
+                                        <th>${modifiedAt}</th>`
+                        $('#posts-box').append(temp_html)
+                    }
+                }
+            });
+        }
+        // function view(id) {
+        //     window.location.href = `/?id=${id}`
+        // }
+    </script>
 <body>
     <header>
-        <button id="creatPost">입력하기</button>
+        <button id="creatPost" onclick="location.href='/posts/posting'">입력하기</button>
     </header>
     <div id="tableWrap">
         <table border="1">
@@ -50,15 +86,15 @@
                 <th class="th_4">작성날짜</th>
                 <th class="th_4">수정/삭제</th>
             </tr>
-            <tr>
+            <tr id="posts-box">
                 <th>1</th>
-                <th>김철수</th>
-                <th>살으리 살으리랏다.</th>
-                <th>하늘에 살으리랏다.</th>
+                <th id="username">김철수</th>
+                <th id="title">살으리 살으리랏다.</th>
+                <th id="comment">하늘에 살으리랏다.</th>
                 <th>1982.6.12</th>
                 <th>
-                    <button>수정</button>
-                    <button>삭제</button>
+                    <button onclick="editPost(id)">수정</button>
+                    <button onclick="deleteOne(id)">삭제</button>
                 </th>
             </tr>
         </table>

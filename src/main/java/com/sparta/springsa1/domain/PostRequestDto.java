@@ -6,11 +6,11 @@ import lombok.Getter;
 public class PostRequestDto {
     private String title;
     private String username;
-    private String contents;
+    private String comment;
 
-    public PostRequestDto(String title, String username, String contents) {
+    public PostRequestDto(String title, String username, String comment) {
         this.title = title;
         this.username = username;
-        this.contents = contents;
+        this.comment = comment;
     }
 }

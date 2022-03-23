@@ -75,7 +75,6 @@
         }
 
         function deleteOne(id) {
-            // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
             $.ajax({
                 type: "DELETE",
                 url: `/posts/delete/${id}`,
@@ -109,17 +108,7 @@
             </thead>
 
             <tbody id="posts-box">
-<!--                <tr>-->
-<!--                    <th>1</th>-->
-<!--                    <th id="username">김철수</th>-->
-<!--                    <th id="title">살으리 살으리랏다.</th>-->
-<!--                    <th id="comment">하늘에 살으리랏다.</th>-->
-<!--                    <th>1982.6.12</th>-->
-<!--                    <th>-->
-<!--                        <button onclick="view('${id}')">수정</button>-->
-<!--                        <button onclick="deleteOne(id)">삭제</button>-->
-<!--                    </th>-->
-<!--                </tr>-->
+
             </tbody>
         </table>
     </div>

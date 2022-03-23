@@ -15,7 +15,7 @@ import java.util.List;
 public class PostController {
     private final PostRepository postRepository;
     private final PostService postService;
-/////////////////////////////////////////////////////////////
+
 
     @GetMapping("/posts/posting")
     public ModelAndView post(){
@@ -42,10 +42,6 @@ public class PostController {
         return postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("null"));
     }
-
-
-//////////////////////////////////////////////////////////
-
 
     @PostMapping("/posts/posting")
     public Post createPost(@RequestBody PostRequestDto requestDto){

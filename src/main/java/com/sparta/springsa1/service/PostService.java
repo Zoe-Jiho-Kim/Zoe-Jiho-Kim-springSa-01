@@ -22,8 +22,4 @@ public class PostService {
         post.update(requestDto);
         return id;
     }
-
-//     public PostRequestDto detail(Long id) throws Exception{
-//        PostRequestDto postRequestDto =
-//     }
 }

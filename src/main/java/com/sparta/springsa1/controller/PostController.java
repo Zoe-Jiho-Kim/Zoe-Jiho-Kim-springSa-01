@@ -31,10 +31,18 @@ public class PostController {
         return main;
     }
 
-    @GetMapping("/posts/detail")
-    public String detail(@RequestParam("id") Long id){
-        return "detail.html";
+    @RequestMapping("/posts/detail")
+    public ModelAndView detail(@RequestParam("id") Long id) throws Exception{
+        ModelAndView mav = new ModelAndView("/detail.html");
+        return mav;
     }
+
+    @GetMapping("/posts/detail/{id}")
+    public Post getDetail (@PathVariable Long id) {
+        return postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("null"));
+    }
+
 
 //////////////////////////////////////////////////////////
 
@@ -50,13 +58,13 @@ public class PostController {
         return postRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    @DeleteMapping("/posts/{id}")
+    @DeleteMapping("/posts/delete/{id}")
     public Long deletePost(@PathVariable Long id){
         postRepository.deleteById(id);
         return id;
     }
 
-    @PutMapping("/posts/detail{id}")
+    @PutMapping("/posts/update/{id}")
     public Long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
         postService.update(id, requestDto);
         return id;

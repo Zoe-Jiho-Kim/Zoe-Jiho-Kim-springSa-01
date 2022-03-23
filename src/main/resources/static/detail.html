@@ -17,7 +17,7 @@
 
         background-color: chartreuse;
         width: 600px;
-        height: 550px;
+        height: 700px;
         margin: 0 auto;
     }
     .contents{
@@ -30,12 +30,16 @@
         width: 500px;
         height: 20px;
     }
-    #input3{
+    #comment{
         height: 300px;
     }
 </style>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+    $(document).ready(function () {
+        getDetail(id);
+    })
+
     function getParameter(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -43,44 +47,69 @@
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, ""));
     }
 
-    $(document).ready(function () {
-        listing()
-    })
-
     let id = getParameter("id");
-    function listing() {
+
+    function  getDetail(){
         $.ajax({
-            type: "GET",
-            url: `/api/posts/${id}`,
-            data: {},
-            success: function (response) {
-                $('#title').text(response['title']);
-                $('#username').text(response['username']);
-                $('#comment').text(response['comment']);
+            type:'GET',
+            url: `/posts/detail/${id}`,
+            contentType:'application/json',
+            data:{},
+            success: function (response){
+                let detail = response;
+                let id = detail.id;
+                let title = detail.title;
+                let username = detail.username;
+                let comment = detail.comment;
+                let createdAt = detail.createdAt;
+                let modifiedAt = detail.modifiedAt;
+                let tempHtml = `<div class="contents">이름:<br/>
+                                    <input aria-label="" id="username" placeholder="${username}">
+                                </div>
+                                <div class="contents">제목:<br/>
+                                    <input aria-label="" id="title" placeholder="${title}">
+                                </div>
+                                <div class="contents">작성시간:<br/>
+                                    <input aria-label="" id="createdAt" placeholder="${createdAt}">
+                                </div>
+                                  <div class="contents">수정시간:<br/>
+                                    <input aria-label="" id="modifiedAt" placeholder="${modifiedAt}">
+                                </div>
+                                <div class="contents">내용:<br/>
+                                    <input aria-label="" id="comment" placeholder="${comment}">
+                                </div>
+                                <div class="contents">
+                                    <button type="submit" onclick="editPost('${id}')">수정하기</button>
+                                    <button onclick="location.href='/'">취소하기</button>
+                                </div>`
+                $('#insertWrap').append(tempHtml)
             }
-        });
+        })
     }
 
-    function back() {
-        window.location.href = '/'
-    }
 </script>
 <body>
     <header></header>
     <div id="insertWrap">
-        <div class="contents">이름:<br/>
-            <input aria-label="" id="username" placeholder="이름을 입력해주세요.">
-        </div>
-        <div class="contents">제목:<br/>
-            <input aria-label="" id="title" placeholder="제목을 입력해주세요.">
-        </div>
-        <div class="contents">내용:<br/>
-            <input aria-label="" id="comment" placeholder="내용을 입력해주세요.">
-        </div>
-        <div class="contents">
-            <button type="submit" onclick="editPost(id)">수정하기</button>
-            <button onclick="location.href='/'">취소하기</button>
-        </div>
+<!--        <div class="contents">이름:<br/>-->
+<!--            <input aria-label="" id="username" placeholder="이름을 입력해주세요.">-->
+<!--        </div>-->
+<!--        <div class="contents">제목:<br/>-->
+<!--            <input aria-label="" id="title" placeholder="제목을 입력해주세요.">-->
+<!--        </div>-->
+<!--        <div class="contents">작성시간:<br/>-->
+<!--            <input aria-label="" id="created" placeholder="작성시간">-->
+<!--        </div>-->
+<!--        <div class="contents">수정시간:<br/>-->
+<!--            <input aria-label="" id="modified" placeholder="수정시간">-->
+<!--        </div>-->
+<!--        <div class="contents">내용:<br/>-->
+<!--            <input aria-label="" id="comment" placeholder="내용을 입력해주세요.">-->
+<!--        </div>-->
+<!--        <div class="contents">-->
+<!--            <button type="submit" onclick="editPost('${id}')">수정하기</button>-->
+<!--            <button onclick="location.href='/'">취소하기</button>-->
+<!--        </div>-->
     </div>
     <footer></footer>
 </body>

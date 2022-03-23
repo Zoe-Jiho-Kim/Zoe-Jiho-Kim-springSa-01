@@ -18,7 +18,7 @@
     }
     #tableWrap{
         width: 800px;
-        height: 800px;
+        height: 100%;
         margin: 0 auto;
     }
     tr,th{
@@ -38,7 +38,6 @@
     }
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="js/post.js"></script>
     <script>
         $(document).ready(function () {
             listing()
@@ -51,26 +50,46 @@
                 contentType: 'application/json',
                 data: {},
                 success: function (response) {
-                    for (let i = 0; i < i.length; i++) {
+                    for (let i = 0; i < response.length; i++) {
                         let post = response[i];
-                        let id = post[i]['id']
-                        let title = post[i]['title']
-                        let username = post[i]['username']
-                        let comment = post[i]['comment']
-                        let modifiedAt = post[i]['modifiedAt']
-                        let temp_html = `<th>${id}</th>
+                        let id = post.id;
+                        let title = post.title;
+                        let username = post.username;
+                        let comment = post.comment;
+                        let modifiedAt = post.modifiedAt;
+                        let temp_html = `<tr>
+                                            <th>${id}</th>
                                             <th id="username">${username}</th>
                                             <th id="title">${title}</th>
-                                            <th id="commnet">${comment}</th>
-                                        <th>${modifiedAt}</th>`
+                                            <th id="comment">${comment}</th>
+                                            <th>${modifiedAt}</th>
+                                            <th>
+                                                <button onclick="view('${id}')">수정</button>
+                                                <button onclick="deleteOne('${id}')">삭제</button>
+                                            </th>
+                                        </tr>`
                         $('#posts-box').append(temp_html)
                     }
                 }
             });
         }
-        // function view(id) {
-        //     window.location.href = `/?id=${id}`
-        // }
+
+        function deleteOne(id) {
+            // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+            $.ajax({
+                type: "DELETE",
+                url: `/posts/delete/${id}`,
+                success: function (response) {
+                    alert('메시지 삭제에 성공하였습니다.');
+                    window.location.reload();
+                }
+            })
+        }
+
+        function view(id) {
+            window.location.href = `/posts/detail?id=${id}`
+        }
+
     </script>
 <body>
     <header>
@@ -78,25 +97,32 @@
     </header>
     <div id="tableWrap">
         <table border="1">
-            <tr>
-                <th class="th_1">No</th>
-                <th class="th_2">작성자</th>
-                <th class="th_3">제 목</th>
-                <th class="th_3">내 용</th>
-                <th class="th_4">작성날짜</th>
-                <th class="th_4">수정/삭제</th>
-            </tr>
-            <tr id="posts-box">
-                <th>1</th>
-                <th id="username">김철수</th>
-                <th id="title">살으리 살으리랏다.</th>
-                <th id="comment">하늘에 살으리랏다.</th>
-                <th>1982.6.12</th>
-                <th>
-                    <button onclick="editPost(id)">수정</button>
-                    <button onclick="deleteOne(id)">삭제</button>
-                </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th class="th_1">No</th>
+                    <th class="th_2">작성자</th>
+                    <th class="th_3">제 목</th>
+                    <th class="th_3">내 용</th>
+                    <th class="th_4">작성날짜</th>
+                    <th class="th_4">수정/삭제</th>
+                </tr>
+            </thead>
+
+            <tbody id="posts-box">
+                <tr>
+                    <th>1</th>
+                    <th id="username">김철수</th>
+                    <th id="title">살으리 살으리랏다.</th>
+                    <th id="comment">하늘에 살으리랏다.</th>
+                    <th>1982.6.12</th>
+                    <th>
+                        <button onclick="view('${id}')">수정</button>
+                        <button onclick="deleteOne(id)">삭제</button>
+                    </th>
+                </tr>
+            </tbody>
+
+
         </table>
     </div>
     <footer></footer>

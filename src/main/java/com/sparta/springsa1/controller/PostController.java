@@ -1,8 +1,8 @@
 package com.sparta.springsa1.controller;
 
-import com.sparta.springsa1.domain.Post;
-import com.sparta.springsa1.domain.PostRepository;
-import com.sparta.springsa1.domain.PostRequestDto;
+import com.sparta.springsa1.model.Post;
+import com.sparta.springsa1.repository.PostRepository;
+import com.sparta.springsa1.dto.PostRequestDto;
 import com.sparta.springsa1.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

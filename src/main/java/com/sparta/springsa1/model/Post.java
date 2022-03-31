@@ -1,5 +1,6 @@
-package com.sparta.springsa1.domain;
+package com.sparta.springsa1.model;
 
+import com.sparta.springsa1.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

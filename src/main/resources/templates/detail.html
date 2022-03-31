@@ -14,7 +14,7 @@
         height: 80px;
     }
     #insertWrap{
-
+        border-radius: 20px;
         background-color: chartreuse;
         width: 600px;
         height: 700px;
@@ -26,15 +26,17 @@
     }
     input{
         margin-top: 10px;
-
+        border-radius: 5px;
         width: 500px;
         height: 20px;
     }
     .comm{
         height: 300px;
+        box-sizing: border-box;
     }
     .box{
-        width: 504px;
+        border-radius: 5px;
+        width: 500px;
         height: 24px;
         background-color: white;
         border: 1px solid black;
@@ -70,19 +72,21 @@
                 let createdAt = detail.createdAt;
                 let modifiedAt = detail.modifiedAt;
                 let tempHtml = `<div class="contents">이름:<br/>
-                                    <div class="box" id="${id}-username">${username}</div>
+                                    <div class="box" id="${id}-username">&nbsp;${username}</div>
                                 </div>
                                 <div class="contents">제목:<br/>
-                                    <div class="box" id="${id}-title">${title}</div>
+                                    <div class="box" id="${id}-title">&nbsp;${title}</div>
                                 </div>
                                 <div class="contents">작성시간:<br/>
-                                    <input aria-label="" id="createdAt" placeholder="${createdAt}" readonly>
+                                    <div class="box" id="createdAt">&nbsp;${createdAt}</div>
+<!--                                    <input aria-label="" id="createdAt" placeholder="${createdAt}" readonly>-->
                                 </div>
                                   <div class="contents">수정시간:<br/>
-                                    <input aria-label="" id="modifiedAt" placeholder="${modifiedAt}" readonly>
+                                     <div class="box" id="modifiedAt">&nbsp;${modifiedAt}</div>
+<!--                                    <input aria-label="" id="modifiedAt" placeholder="${modifiedAt}" readonly>-->
                                 </div>
                                 <div class="contents">내용:<br/>
-                                    <input aria-label="" class="comm" id="${id}-comment" placeholder="${comment}">
+                                    <input aria-label="" class="comm" id="${id}-comment" placeholder="&nbsp;${comment}">
                                 </div>
                                 <div class="contents">
                                     <button type="submit" onclick="editPost('${id}')">수정하기</button>
@@ -123,7 +127,7 @@
             data: JSON.stringify(data),
             success: function (response) {
                 alert('메시지 변경에 성공하였습니다.');
-                window.location.reload();
+                window.location.href = '/';
             }
         });
     }

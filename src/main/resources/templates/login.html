@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 페이지</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<style>
+    *{margin: 0; padding: 0;}
+    #wrap{
+        margin: 0 auto;
+        margin-top: 100px;
+        width: 500px;
+        height: 700px;
+        background-color: aquamarine;
+        border-radius: 30px;
+    }
+    #container{
+        padding-top: 50px;
+        width: 400px;
+        margin: 0 auto;
+        font-size: 20px;
+    }
+    #container h2{
+        text-align: center;
+    }
+    input{
+        width: 400px;
+        height: 35px;
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+    .con{
+        margin-top: 20px;
+    }
+
+    #alert{
+        color: red;
+        font-size: 15px;
+    }
+    #pass{
+        color: blue;
+        font-size: 15px;
+    }
+    #logIn{
+        color: white;
+        margin-top: 20px;
+        width: 400px;
+        height: 45px;
+        border-radius: 5px;
+        background-color: cornflowerblue;
+        font-size: 20px;
+    }
+    #login-kakao-btn{
+        margin-top: 20px;
+        width: 400px;
+        height: 45px;
+        border-radius: 5px;
+        background-color: yellow;
+        font-size: 20px;
+    }
+    #signUp{
+        background-color: white;
+        width: 400px;
+        height: 45px;
+        border-radius: 5px;
+        font-size: 20px;
+    }
+    #Signup-up{
+        color: white;
+        margin-top: 20px;
+        width: 400px;
+        height: 45px;
+        border-radius: 5px;
+        background-color: cornflowerblue;
+        font-size: 20px;
+    }
+
+
+
+</style>
+<body>
+<div id="wrap">
+    <div id="container">
+        <div id="header">
+            <h2>🤯불타는 게시판✨</br>
+                로그인</h2>
+        </div>
+        <div class="con">Username</br>
+            <input type="text" placeholder="&nbsp;아이디를 입력해주세요.">
+        </div>
+        <div class="con">Password</br>
+            <input type="password" name="password" placeholder="&nbsp;비밀번호를 입력해주세요.">
+        </div>
+        <div class="con">
+            <button id="logIn" onclick="location.href='/user/login'">로그인</button>
+        </div>
+        <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=87ca001076638ae72d62c87d53d66cae&amp;redirect_uri=http://localhost:8080/user/kakao/callback&amp;response_type=code'">
+            카카오로 로그인하기
+        </button>
+        <div class="con">
+            <button id="signUp" onclick="location.href='/user/signup'">회원가입</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

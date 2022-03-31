@@ -1,8 +1,8 @@
 package com.sparta.springsa1.service;
 
-import com.sparta.springsa1.domain.Post;
-import com.sparta.springsa1.domain.PostRepository;
-import com.sparta.springsa1.domain.PostRequestDto;
+import com.sparta.springsa1.model.Post;
+import com.sparta.springsa1.repository.PostRepository;
+import com.sparta.springsa1.dto.PostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

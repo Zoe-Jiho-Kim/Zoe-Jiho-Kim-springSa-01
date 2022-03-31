@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            listing()
+        })
+        function listing() {
+            $('#posts-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "/posts/list",
+                contentType: 'application/json',
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let post = response[i];
+                        let id = post.id;
+                        let title = post.title;
+                        let username = post.username;
+                        let comment = post.comment;
+                        let modifiedAt = post.modifiedAt;
+                        let temp_html = `<tr>
+                                            <th>${id}</th>
+                                            <th id="username">${username}</th>
+                                            <th id="title">${title}</th>
+                                            <th id="comment" style="cursor: pointer" onclick="location.href=''">${comment}</th>
+                                            <th>${modifiedAt}</th>
+                                            <th>
+                                                <button onclick="view('${id}')">수정</button>
+                                                <button onclick="deleteOne('${id}')">삭제</button>
+                                            </th>
+                                        </tr>`
+                        $('#posts-box').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        function deleteOne(id) {
+            $.ajax({
+                type: "DELETE",
+                url: `/posts/delete/${id}`,
+                success: function (response) {
+                    alert('메시지 삭제에 성공하였습니다.');
+                    window.location.reload();
+                }
+            })
+        }
+
+        function view(id) {
+            window.location.href = `/posts/detail?id=${id}`
+        }
+
+    </script>
+
+    <style>
+        *{margin: 0; padding: 0}
+        a{color: black; text-decoration: none}
+        header{
+            /*background-color: cornflowerblue;*/
+            margin: 0 auto;
+            width: 800px;
+            height: 150px;
+        }
+        #creatPost{
+            width: 100%;
+        }
+        #creatPost>button{
+            width: 100px;
+            height: 30px;
+            float: right;
+            margin-top: 30px;
+        }
+        #tableWrap{
+            /*background-color: aquamarine;*/
+            width: 800px;
+            height: 100%;
+            margin: 0 auto;
+        }
+        tr,th{
+            height: 40px;
+        }
+        .th_1{
+            width: 50px;
+        }
+        .th_2{
+            width: 100px;
+        }
+        .th_3{
+            width: 250px;
+        }
+        .th_4{
+            width: 100px;
+        }
+        #uiConsole{
+            width: 100%;
+            height: 50px;
+            display: block;
+            padding-top: 10px;
+            margin-left: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #logIn{
+            background-color: cadetblue;
+            width: 100px;
+            height: 30px;
+            float: left;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 15px;
+        }
+        #logIn>a{
+            color: white;
+        }
+        #signUp{
+            float: left;
+            margin-right: 15px;
+            text-align: center;
+        }
+    </style>
+    <style>
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            display: none;
+
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal.show {
+            display: block;
+        }
+        .modal_body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            width: 400px;
+            height: 600px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+            transform: translateX(-50%) translateY(-50%);
+        }
+        #comment_body{
+            /*background-color: cadetblue;*/
+            width: 400px;
+            height: 250px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .con_com{
+            background-color: beige ;
+            text-align: left;
+            width: 350px;
+            height: 25px;
+            margin: 0 auto;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .con_com:last-child{
+            height: 90px;
+            margin-bottom: 0;
+        }
+
+    </style>
+    <style>
+        #replyWrap{
+            /*background-color: cornflowerblue;*/
+            width: 400px;
+            height: auto;
+        }
+        #postReply{
+            margin: 0 auto;
+            /*background-color: antiquewhite;*/
+            width: 350px;
+            height: 50px;
+            position: relative;
+        }
+        #postReply>input{
+            width: 300px;
+            height: 50px;
+            position: absolute;
+            left: 0;
+            box-sizing: border-box;
+        }
+        #postReply>button{
+            height: 50px;
+            width: 50px;
+            float: right;
+        }
+        #replyFooter{
+            width: 100%;
+            height: 30px;
+            /*background-color: cadetblue;*/
+            position: relative;
+            top: 300px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="uiConsole">
+            <div id="signUp"><a href="/user/signup">Sign Up</a></div>
+            <div id="logIn"><a href="/user/login">Log In</a></div>
+        </div>
+        <div id="creatPost" >
+            <button onclick="location.href='/posts/posting'">게시글 작성</button>
+        </div>
+    </header>
+    <div id="tableWrap">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th class="th_1">No</th>
+                    <th class="th_2">작성자</th>
+                    <th class="th_3">제 목</th>
+                    <th class="th_3">내 용</th>
+                    <th class="th_4">작성날짜</th>
+                    <th class="th_4">수정/삭제</th>
+                </tr>
+            </thead>
+
+            <tbody id="posts-box">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="modal">
+        <div class="modal_body">
+            <div id="comment_body">
+                <div class="con_com" id="${id}-username">&nbsp;이름:&nbsp;${username}</div>
+                <div class="con_com" id="${id}-title">&nbsp;제목:&nbsp;${title}</div>
+                <div class="con_com" id="createdAt">&nbsp;작성시간:&nbsp;${createdAt}</div>
+                <div class="con_com" id="modifiedAt">&nbsp;수정시간:&nbsp;${modifiedAt}</div>
+                <div class="con_com" id="${id}-comment">&nbsp;내용:&nbsp;${comment}</div>
+            </div>
+            <div id="replyWrap">
+                <div id="postReply">
+                    <input placeholder="댓글을 입력해주세요."><button type="submit" onclick="postReply('${id}')">등록</button>
+                </div>
+                <div id="reply_box">
+<!--                    <div class="" id="${id}-username">&nbsp;${username}</div>-->
+<!--                    <div class="" id="${id}-reply">&nbsp;${reply}</div>-->
+<!--                    <div class="" id="createdAt">&nbsp;작성시간:&nbsp;${createdAt}</div>-->
+                    <button onclick="editReply('${id}')">수정</button>
+                    <button onclick="deleteReply('${id}')">삭제</button>
+                </div>
+            </div>
+            <div id="replyFooter">
+                <button onclick="location.href='/'">취소하기</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-open-popup">Modal 띄우기</button>
+    <script>
+        const body = document.querySelector('body');
+        const modal = document.querySelector('.modal');
+        const btnOpenPopup = document.querySelector('.btn-open-popup');
+
+        btnOpenPopup.addEventListener('click', () => {
+            modal.classList.toggle('show');
+
+            if (modal.classList.contains('show')) {
+                body.style.overflow = 'hidden';
+            }
+        });
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.toggle('show');
+
+                if (!modal.classList.contains('show')) {
+                    body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+function makeComments(comment,username, modifiedAt, commentId) {
+console.log(usernames)
+let hide ="hide"
+console.log(username)
+if (usernames === username){
+hide=""
+}
+return `<div class="box comment-box">
+    <article class="media">
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <strong class="comment-name">${username}</strong><p class="comment-modi">${modifiedAt}</p>
+                <br>
+                <p id="${commentId}-comment">${comment}</p>
+                </p>
+                <textarea class="textarea comment-text" id="${commentId}-textarea" placeholder="e.g. Hello world"></textarea>
+            </div>
+            <nav class="level is-mobile">
+                <div class="level-left btn-box">
+                    <a class="level-item ${hide}" aria-label="reply">
+                        <i class="fas fa-edit" id="${commentId}-edit" onclick="editComment(${commentId})"></i>
+                    </a>
+                    <a class="level-item ${hide}" id="${commentId}-delete" aria-label="retweet" onclick="deleteComment(${commentId})">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    <a class="level-item check " id="${commentId}-check" aria-label="check">
+                        <i class="fas fa-lg fa-check-square" onclick="submitEdit(${commentId})"></i>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </article>
+</div>`;
+// $('#cards-box').append(tempHtml);
+}
